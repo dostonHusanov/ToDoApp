@@ -52,7 +52,7 @@ fun OnBoardingScreen(onFinish: () -> Unit) {
                 .padding(16.dp)
         ) {
             HorizontalPager(
-                beyondBoundsPageCount = listData.size,
+                beyondViewportPageCount = listData.size,
                 state = pagerState,
                 modifier = Modifier.weight(1f)
             ) { page ->
