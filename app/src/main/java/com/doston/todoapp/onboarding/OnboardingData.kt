@@ -1,4 +1,6 @@
-package com.doston.todoapp
+package com.doston.todoapp.onboarding
+
+import com.doston.todoapp.R
 
 class OnboardingData(val image: Int, val title: String, val desc: String)
 
