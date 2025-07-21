@@ -20,8 +20,15 @@ class ChecklistViewModel(application: Application) : AndroidViewModel(applicatio
 
     val newChecklistTitle = mutableStateOf("")
     val newChecklistItems = mutableStateListOf<String>()
-    val themeDark = mutableStateOf(true)
 
+    // Updated theme management with StateFlow for better Compose integration
+    private val _themeDark = MutableStateFlow(true)
+    val themeDark = _themeDark.asStateFlow()
+
+    // Keep the old mutableStateOf for backward compatibility if needed elsewhere
+    val themeDarkState = mutableStateOf(true)
+
+    var editingIndex = mutableStateOf(-1)
     init {
         loadChecklists()
     }
@@ -51,6 +58,26 @@ class ChecklistViewModel(application: Application) : AndroidViewModel(applicatio
             _archivedChecklists.value = all.filter { it.isArchived }
         }
     }
+    fun moveItem(from: Int, to: Int) {
+        val item = newChecklistItems.removeAt(from)
+        newChecklistItems.add(to, item)
+    }
+
+    fun startEditing(index: Int) {
+        editingIndex.value = index
+    }
+
+    fun stopEditing() {
+        editingIndex.value = -1
+    }
+
+    fun updateItem(index: Int, newValue: String) {
+        newChecklistItems[index] = newValue
+    }
+
+    fun removeItem(index: Int) {
+        newChecklistItems.removeAt(index)
+    }
 
     fun archiveChecklist(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -66,7 +93,12 @@ class ChecklistViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-
+    fun deleteArchivedList(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dbHelper.deleteArchivedById(id)
+            loadChecklists()
+        }
+    }
 
     fun addChecklist(name: String, items: List<String>, createdDate: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -75,8 +107,19 @@ class ChecklistViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-
+    // Updated theme methods
     fun toggleTheme() {
-        themeDark.value = !themeDark.value
+        val newValue = !_themeDark.value
+        _themeDark.value = newValue
+        themeDarkState.value = newValue
+    }
+
+    fun setTheme(isDark: Boolean) {
+        _themeDark.value = isDark
+        themeDarkState.value = isDark
+    }
+
+    fun getCurrentTheme(): Boolean {
+        return _themeDark.value
     }
 }

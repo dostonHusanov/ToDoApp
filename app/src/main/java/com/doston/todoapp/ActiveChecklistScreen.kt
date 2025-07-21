@@ -38,6 +38,7 @@ import androidx.navigation.NavController
 import com.doston.todoapp.database.ChecklistViewModel
 import com.doston.todoapp.ui.theme.ButtonColor
 import com.doston.todoapp.ui.theme.MainColor
+import com.doston.todoapp.ui.theme.WhiteColor
 import com.doston.todoapp.ui.theme.YellowColor
 
 
@@ -45,7 +46,18 @@ import com.doston.todoapp.ui.theme.YellowColor
 fun ActiveChecklistScreen(navController: NavController, viewModel: ChecklistViewModel) {
     val checklists by viewModel.checklists.collectAsState()
 
-    Scaffold(containerColor = MainColor, bottomBar = {
+    Scaffold(topBar = {
+        Text(
+            "Active Checklists",
+            color = WhiteColor,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .padding(24.dp)
+                .fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
+    }, containerColor = MainColor, bottomBar = {
         Row(
             Modifier
                 .fillMaxWidth()
@@ -147,7 +159,7 @@ fun ChecklistItemCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(12.dp)
+            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(15.dp)
         ) {
             // Checkbox
             Box(

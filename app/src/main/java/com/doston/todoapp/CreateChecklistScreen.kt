@@ -2,6 +2,7 @@ package com.doston.todoapp
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,17 +14,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -35,18 +41,21 @@ import com.doston.todoapp.ui.theme.ButtonColor
 import com.doston.todoapp.ui.theme.MainColor
 import com.doston.todoapp.ui.theme.WhiteColor
 import com.doston.todoapp.ui.theme.YellowColor
+import org.burnoutcrew.reorderable.ReorderableItem
+import org.burnoutcrew.reorderable.detectReorderAfterLongPress
+import org.burnoutcrew.reorderable.rememberReorderableLazyListState
+import org.burnoutcrew.reorderable.reorderable
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import androidx.compose.material3.*
 
 @SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateChecklistScreen(navController: NavController, viewModel: ChecklistViewModel) {
-
-    // Clear the form when screen is first composed
     LaunchedEffect(Unit) {
-        viewModel.clearAll() // Use existing clearAll method
+        viewModel.clearAll()
     }
 
     val textFieldColors = TextFieldDefaults.outlinedTextFieldColors(
@@ -59,89 +68,71 @@ fun CreateChecklistScreen(navController: NavController, viewModel: ChecklistView
         unfocusedBorderColor = WhiteColor,
         unfocusedLabelColor = WhiteColor
     )
-    val checklistTitle = mutableStateOf("")
-    val newChecklistTitle = mutableStateOf("")
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MainColor)
-            .padding(16.dp)
+            .padding(16.dp), verticalArrangement = Arrangement.SpaceBetween
     ) {
-        // Checklist Title
-        OutlinedTextField(
-            value = viewModel.checklistTitle.value,
-            onValueChange = { viewModel.checklistTitle.value = it },
-            label = { Text("Checklist Name") },
-            colors = textFieldColors,
-            modifier = Modifier.fillMaxWidth()
-        )
+Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.SpaceBetween) {
+
+
+    OutlinedTextField(
+        value = viewModel.checklistTitle.value,
+        onValueChange = { viewModel.checklistTitle.value = it },
+        label = { Text("Checklist Name") },
+        colors = textFieldColors,
+        modifier = Modifier.fillMaxWidth()
+    )
+
+    Spacer(modifier = Modifier.height(8.dp))
+
+    OutlinedTextField(
+        value = viewModel.newItemText.value,
+        onValueChange = { viewModel.newItemText.value = it },
+        label = { Text("New Item") },
+        colors = textFieldColors,
+        modifier = Modifier.fillMaxWidth()
+    )
+
+    Spacer(modifier = Modifier.height(8.dp))
+
+    Button(
+        onClick = { viewModel.addItem() },
+        shape = RoundedCornerShape(10.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = YellowColor,
+            contentColor = WhiteColor
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(43.dp)
+    ) {
+        Text("Add Item", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+    }
+}
 
         Spacer(modifier = Modifier.height(8.dp))
-
-        // New Item Input
-        OutlinedTextField(
-            value = viewModel.newItemText.value,
-            onValueChange = { viewModel.newItemText.value = it },
-            label = { Text("New Item") },
-            colors = textFieldColors,
-            modifier = Modifier.fillMaxWidth()
-        )
-
+Column(modifier = Modifier.fillMaxSize().weight(1f), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Top) {
+        ReorderableChecklist(viewModel = viewModel, modifier = Modifier.weight(1f))
+}
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Add Item Button
-        Button(
-            onClick = { viewModel.addItem() },
-            shape = RoundedCornerShape(10.dp),
-            colors = ButtonColors(
-                containerColor = YellowColor,
-                contentColor = WhiteColor,
-                disabledContainerColor = ButtonColor,
-                disabledContentColor = ButtonBlack
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(43.dp)
-        ) {
-            Text("Add Item", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp)
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Display Items
-        LazyColumn(modifier = Modifier.weight(1f)) {
-            items(viewModel.newChecklistItems.size) { index ->
-                OutlinedTextField(
-                    value = viewModel.newChecklistItems[index],
-                    onValueChange = { viewModel.newChecklistItems[index] = it },
-                    label = { Text("Item ${index + 1}") },
-                    colors = textFieldColors,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp)
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Cancel / Save Row
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            // Cancel Button
             Button(
                 onClick = {
-                    viewModel.clearAll() // Use existing clearAll method
+                    viewModel.clearAll()
                     navController.popBackStack()
                 },
                 shape = RoundedCornerShape(10.dp),
-                colors = ButtonColors(
+                colors = ButtonDefaults.buttonColors(
                     containerColor = YellowColor,
-                    contentColor = WhiteColor,
-                    disabledContainerColor = ButtonColor,
-                    disabledContentColor = ButtonBlack
+                    contentColor = WhiteColor
                 ),
                 modifier = Modifier
                     .weight(1f)
@@ -152,7 +143,6 @@ fun CreateChecklistScreen(navController: NavController, viewModel: ChecklistView
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            // Save Button
             Button(
                 onClick = {
                     val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -163,16 +153,13 @@ fun CreateChecklistScreen(navController: NavController, viewModel: ChecklistView
                         viewModel.newChecklistItems,
                         currentDate
                     )
-
                     viewModel.clearAll()
                     navController.popBackStack()
                 },
                 shape = RoundedCornerShape(10.dp),
-                colors = ButtonColors(
+                colors = ButtonDefaults.buttonColors(
                     containerColor = YellowColor,
-                    contentColor = WhiteColor,
-                    disabledContainerColor = ButtonColor,
-                    disabledContentColor = ButtonBlack
+                    contentColor = WhiteColor
                 ),
                 modifier = Modifier
                     .weight(1f)
@@ -180,6 +167,121 @@ fun CreateChecklistScreen(navController: NavController, viewModel: ChecklistView
             ) {
                 Text("Save", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp)
             }
+        }
+    }
+}
+
+@Composable
+fun ReorderableChecklist(viewModel: ChecklistViewModel,modifier: Modifier) {
+    val state = rememberReorderableLazyListState(onMove = { from, to ->
+        viewModel.moveItem(from.index, to.index)
+    })
+
+    LazyColumn(
+        state = state.listState,
+        modifier = Modifier
+            .reorderable(state)
+            .detectReorderAfterLongPress(state)
+            .fillMaxWidth()
+    ) {
+        items(viewModel.newChecklistItems.size, { it }) { index ->
+            val item = viewModel.newChecklistItems[index]
+            ReorderableItem(state, key = index) { isDragging ->
+                DraggableChecklistItem(
+                    text = item,
+                    onValueChange = { viewModel.updateItem(index, it) },
+                    onEditClick = { viewModel.startEditing(index) },
+                    onConfirmEditClick = { viewModel.stopEditing() },
+                    isEditing = viewModel.editingIndex.value == index,
+                    onDeleteClick = { viewModel.removeItem(index) },
+                    dragHandle = {
+                        Icon(
+                            imageVector = Icons.Default.Menu,
+                            contentDescription = "Drag",
+                            tint = Color.Gray,
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    },
+                    modifier = Modifier.padding(vertical = 10.dp)
+                )
+
+            }
+        }
+    }
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DraggableChecklistItem(
+    text: String,
+    onValueChange: (String) -> Unit,
+    onEditClick: () -> Unit,
+    onConfirmEditClick: () -> Unit,
+    isEditing: Boolean,
+    onDeleteClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    dragHandle: @Composable () -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .clip(RoundedCornerShape(12.dp))
+            .background(Color(0xFF212121))
+            .border(1.dp, Color(0xFFFF5722), RoundedCornerShape(12.dp))
+            .padding(horizontal = 8.dp, vertical = 8.dp)
+            .fillMaxWidth()
+    ) {
+        dragHandle()
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        if (isEditing) {
+            OutlinedTextField(
+                value = text,
+                onValueChange = onValueChange,
+                singleLine = true,
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White,
+                    cursorColor = Color.White,
+                    focusedBorderColor = Color(0xFFFF5722),
+                    unfocusedBorderColor = Color(0xFFFF5722)
+                ),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 4.dp)
+            )
+
+            IconButton(onClick = onConfirmEditClick) {
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = "Confirm Edit",
+                    tint = Color(0xFFFF5722)
+                )
+            }
+
+        } else {
+            Text(
+                text = text,
+                modifier = Modifier.weight(1f),
+                color = Color.Gray,
+                fontWeight = FontWeight.SemiBold
+            )
+
+            IconButton(onClick = onEditClick) {
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = "Edit",
+                    tint = Color(0xFFFF5722)
+                )
+            }
+        }
+
+        IconButton(onClick = onDeleteClick) {
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = "Delete",
+                tint = Color.Gray
+            )
         }
     }
 }

@@ -1,7 +1,7 @@
-package com.doston.todoapp
+package com.doston.todoapp.archive
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,8 +18,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -30,14 +28,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.doston.todoapp.R
 import com.doston.todoapp.database.ChecklistViewModel
-import com.doston.todoapp.ui.theme.ButtonBlack
 import com.doston.todoapp.ui.theme.ButtonColor
 import com.doston.todoapp.ui.theme.MainColor
 import com.doston.todoapp.ui.theme.WhiteColor
@@ -78,7 +74,21 @@ fun ArchiveScreen(navController: NavController, viewModel: ChecklistViewModel) {
                         tonalElevation = 2.dp,
                         colors = ListItemDefaults.colors(containerColor = ButtonColor), modifier = Modifier.border(1.dp, color = YellowColor, shape = RoundedCornerShape(15.dp)).clip(
                             RoundedCornerShape(15.dp)
-                        )
+                        ),   trailingContent = {
+                            Icon(
+                                painter = painterResource(R.drawable.delete),
+                                contentDescription = "Delete",
+                                tint = Color.Red,
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .clickable {
+viewModel.deleteArchivedList(checklist.id)
+                                        viewModel.archivedChecklists
+
+                                    }
+                            )
+                        }
+
                     )
                 }
             }

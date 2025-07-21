@@ -38,6 +38,14 @@ class ChecklistDbHelper(context: Context) : SQLiteOpenHelper(context, "checklist
 
 
     }
+    fun deleteArchivedById(id: Int) {
+        val db = writableDatabase
+        db.delete(
+            "checklists",
+            "id = ? AND is_archived = 1",
+            arrayOf(id.toString())
+        )
+    }
     fun getAllChecklists(): List<Checklist> {
         val db = readableDatabase
         val cursor = db.rawQuery("SELECT * FROM checklists", null)
