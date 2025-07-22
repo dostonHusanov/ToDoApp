@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.doston.todoapp.database.ChecklistViewModel
+import com.doston.todoapp.ui.theme.ButtonColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -25,6 +26,7 @@ fun SettingsScreen(navController: NavController, viewModel: ChecklistViewModel) 
     val isDarkTheme by viewModel.themeDark.collectAsState()
 
     // Define colors based on theme
+    val dividerColor = if (isDarkTheme) ButtonColor else Color(0xFFE0E0E0)
     val backgroundColor = if (isDarkTheme) Color(0xFF1C1C1C) else Color.White
     val surfaceColor = if (isDarkTheme) Color(0xFF2C2C2C) else Color(0xFFF5F5F5)
     val textColor = if (isDarkTheme) Color.White else Color.Black
@@ -59,6 +61,10 @@ fun SettingsScreen(navController: NavController, viewModel: ChecklistViewModel) 
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = backgroundColor
             )
+        )
+        HorizontalDivider(
+            modifier = Modifier.padding(vertical = 4.dp),
+            color = dividerColor
         )
 
         // Content

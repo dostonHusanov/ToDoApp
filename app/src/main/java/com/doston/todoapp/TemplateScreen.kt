@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.doston.todoapp.database.ChecklistViewModel
-import com.doston.todoapp.ui.theme.ButtonBlack
 import com.doston.todoapp.ui.theme.ButtonColor
 import com.doston.todoapp.ui.theme.MainColor
 import com.doston.todoapp.ui.theme.WhiteColor
@@ -42,7 +41,15 @@ import com.doston.todoapp.ui.theme.YellowColor
 fun TemplateScreen(navController: NavController, viewModel: ChecklistViewModel) {
     val checklists by viewModel.checklists.collectAsState()
     var searchQuery by remember { mutableStateOf("") }
+    val checklist by viewModel.archivedChecklists.collectAsState()
+    val isDarkTheme by viewModel.themeDark.collectAsState()
 
+    // Dynamic theme colors
+    val backgroundColor = if (isDarkTheme) MainColor else Color(0xFFF5F5F5)
+    val textColor = if (isDarkTheme) WhiteColor else Color.Black
+    val cardColor = if (isDarkTheme) ButtonColor else Color.White
+    val accentColor = if (isDarkTheme) YellowColor else Color(0xFF6200EE)
+    val topBarColor = if (isDarkTheme) ButtonColor else Color.White
     val filteredChecklists = checklists.filter {
         it.title.contains(searchQuery, ignoreCase = true)
     }
@@ -50,10 +57,10 @@ fun TemplateScreen(navController: NavController, viewModel: ChecklistViewModel) 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MainColor)
+            .background(backgroundColor)
     ) {
 
-        SearchScreen(searchQuery) { newQuery ->
+        SearchScreen(searchQuery, viewModel) { newQuery ->
             searchQuery = newQuery
         }
 
@@ -82,10 +89,10 @@ fun TemplateScreen(navController: NavController, viewModel: ChecklistViewModel) 
             shape = RectangleShape,
             onClick = { navController.navigate("create") },
             colors = ButtonColors(
-                containerColor = YellowColor,
-                contentColor = WhiteColor,
-                disabledContainerColor = ButtonColor,
-                disabledContentColor = ButtonBlack
+                containerColor = accentColor,
+                contentColor = textColor,
+                disabledContainerColor = cardColor,
+                disabledContentColor = textColor
             )
         ) {
             Text("Create Custom", color = WhiteColor)
@@ -102,26 +109,35 @@ fun TemplateItem(
     navController: NavController,
     viewModel: ChecklistViewModel
 ) {
+    val checklists by viewModel.archivedChecklists.collectAsState()
+    val isDarkTheme by viewModel.themeDark.collectAsState()
+
+    // Dynamic theme colors
+    val backgroundColor = if (isDarkTheme) MainColor else Color(0xFFF5F5F5)
+    val textColor = if (isDarkTheme) WhiteColor else Color.Black
+    val cardColor = if (isDarkTheme) ButtonColor else Color.White
+    val accentColor = if (isDarkTheme) YellowColor else Color(0xFF6200EE)
+    val topBarColor = if (isDarkTheme) ButtonColor else Color.White
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .height(191.dp)
             .padding(vertical = 8.dp, horizontal = 16.dp)
             .clip(RoundedCornerShape(15.dp))
-            .background(ButtonColor)
+            .background(cardColor)
             .border(1.dp, shape = RoundedCornerShape(15.dp), color = YellowColor)
             .padding(16.dp),
         verticalArrangement = Arrangement.SpaceAround
     ) {
         Text(
             text = title,
-            color = WhiteColor,
+            color = textColor,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold
         )
         Text(
             text = createdDate,
-            color = WhiteColor,
+            color = textColor,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold
         )
@@ -136,10 +152,10 @@ fun TemplateItem(
                 navController.popBackStack()
             },
             colors = ButtonColors(
-                containerColor = YellowColor,
-                contentColor = WhiteColor,
-                disabledContainerColor = ButtonColor,
-                disabledContentColor = ButtonBlack
+                containerColor = accentColor,
+                contentColor = textColor,
+                disabledContainerColor = cardColor,
+                disabledContentColor = topBarColor
             )
         ) {
             Text("Use Template")
@@ -147,16 +163,26 @@ fun TemplateItem(
     }
 
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
-    query: String,
+    query: String, viewModel: ChecklistViewModel,
     onQueryChange: (String) -> Unit
 ) {
+    val checklists by viewModel.archivedChecklists.collectAsState()
+    val isDarkTheme by viewModel.themeDark.collectAsState()
+
+    // Dynamic theme colors
+    val backgroundColor = if (isDarkTheme) MainColor else Color(0xFFF5F5F5)
+    val textColor = if (isDarkTheme) WhiteColor else Color.Black
+    val cardColor = if (isDarkTheme) ButtonColor else Color.White
+    val accentColor = if (isDarkTheme) YellowColor else Color(0xFF6200EE)
+    val topBarColor = if (isDarkTheme) ButtonColor else Color.White
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MainColor)
+            .background(backgroundColor)
             .padding(16.dp),
         verticalArrangement = Arrangement.Top
     ) {
@@ -169,11 +195,11 @@ fun SearchScreen(
             singleLine = true,
             shape = RoundedCornerShape(12.dp),
             colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = Color(0xFFFF5722),
-                focusedTextColor = WhiteColor,
-                unfocusedBorderColor = Color(0xFFFF5722),
-                containerColor = Color(0xFF212121),
-                cursorColor = Color.White
+                focusedBorderColor = accentColor,
+                focusedTextColor = textColor,
+                unfocusedBorderColor = accentColor,
+                containerColor = cardColor,
+                cursorColor = textColor
             ),
             modifier = Modifier
                 .fillMaxWidth()

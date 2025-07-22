@@ -49,30 +49,41 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import androidx.compose.material3.*
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 
 @SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateChecklistScreen(navController: NavController, viewModel: ChecklistViewModel) {
+    val checklists by viewModel.archivedChecklists.collectAsState()
+    val isDarkTheme by viewModel.themeDark.collectAsState()
+
+    // Dynamic theme colors
+    val backgroundColor = if (isDarkTheme) MainColor else Color(0xFFF5F5F5)
+    val textColor = if (isDarkTheme) WhiteColor else Color.Black
+    val cardColor = if (isDarkTheme) ButtonColor else Color.White
+    val accentColor = if (isDarkTheme) YellowColor else Color(0xFF6200EE)
+    val topBarColor = if (isDarkTheme) ButtonColor else Color.White
     LaunchedEffect(Unit) {
         viewModel.clearAll()
     }
 
     val textFieldColors = TextFieldDefaults.outlinedTextFieldColors(
-        focusedTextColor = WhiteColor,
+        focusedTextColor = textColor,
         unfocusedTextColor = ButtonBlack,
         disabledTextColor = ButtonColor,
         errorTextColor = Color.Red,
-        cursorColor = WhiteColor,
-        focusedBorderColor = ButtonBlack,
-        unfocusedBorderColor = WhiteColor,
-        unfocusedLabelColor = WhiteColor
+        cursorColor = textColor,
+        focusedBorderColor = textColor,
+        unfocusedBorderColor = textColor,
+        unfocusedLabelColor = textColor
     )
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MainColor)
+            .background(backgroundColor)
             .padding(16.dp), verticalArrangement = Arrangement.SpaceBetween
     ) {
 Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.SpaceBetween) {
@@ -102,14 +113,14 @@ Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Spa
         onClick = { viewModel.addItem() },
         shape = RoundedCornerShape(10.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = YellowColor,
-            contentColor = WhiteColor
+            containerColor = accentColor,
+            contentColor = textColor
         ),
         modifier = Modifier
             .fillMaxWidth()
             .height(43.dp)
     ) {
-        Text("Add Item", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+        Text("Add Item", color = textColor, fontWeight = FontWeight.Bold, fontSize = 15.sp)
     }
 }
 
@@ -131,14 +142,14 @@ Column(modifier = Modifier.fillMaxSize().weight(1f), horizontalAlignment = Align
                 },
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = YellowColor,
-                    contentColor = WhiteColor
+                    containerColor = accentColor,
+                    contentColor = textColor
                 ),
                 modifier = Modifier
                     .weight(1f)
                     .height(43.dp)
             ) {
-                Text("Cancel", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                Text("Cancel", color = textColor, fontWeight = FontWeight.Bold, fontSize = 15.sp)
             }
 
             Spacer(modifier = Modifier.width(8.dp))
@@ -158,14 +169,14 @@ Column(modifier = Modifier.fillMaxSize().weight(1f), horizontalAlignment = Align
                 },
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = YellowColor,
-                    contentColor = WhiteColor
+                    containerColor = accentColor,
+                    contentColor = textColor
                 ),
                 modifier = Modifier
                     .weight(1f)
                     .height(43.dp)
             ) {
-                Text("Save", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                Text("Save", color = textColor, fontWeight = FontWeight.Bold, fontSize = 15.sp)
             }
         }
     }
@@ -202,7 +213,7 @@ fun ReorderableChecklist(viewModel: ChecklistViewModel,modifier: Modifier) {
                             modifier = Modifier.padding(8.dp)
                         )
                     },
-                    modifier = Modifier.padding(vertical = 10.dp)
+                    modifier = Modifier.padding(vertical = 10.dp), viewModel = viewModel
                 )
 
             }
@@ -219,14 +230,20 @@ fun DraggableChecklistItem(
     isEditing: Boolean,
     onDeleteClick: () -> Unit,
     modifier: Modifier = Modifier,
-    dragHandle: @Composable () -> Unit
+    dragHandle: @Composable () -> Unit,viewModel: ChecklistViewModel
 ) {
+    val isDarkTheme by viewModel.themeDark.collectAsState()
+    val backgroundColor = if (isDarkTheme) MainColor else Color(0xFFF5F5F5)
+    val textColor = if (isDarkTheme) WhiteColor else Color.Black
+    val cardColor = if (isDarkTheme) ButtonColor else Color.White
+    val accentColor = if (isDarkTheme) YellowColor else Color(0xFF6200EE)
+    val topBarColor = if (isDarkTheme) ButtonColor else Color.White
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
-            .background(Color(0xFF212121))
-            .border(1.dp, Color(0xFFFF5722), RoundedCornerShape(12.dp))
+            .background(cardColor)
+            .border(1.dp, accentColor, RoundedCornerShape(12.dp))
             .padding(horizontal = 8.dp, vertical = 8.dp)
             .fillMaxWidth()
     ) {
@@ -240,11 +257,11 @@ fun DraggableChecklistItem(
                 onValueChange = onValueChange,
                 singleLine = true,
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
-                    cursorColor = Color.White,
-                    focusedBorderColor = Color(0xFFFF5722),
-                    unfocusedBorderColor = Color(0xFFFF5722)
+                    focusedTextColor = textColor,
+                    unfocusedTextColor =textColor,
+                    cursorColor = textColor,
+                    focusedBorderColor = accentColor,
+                    unfocusedBorderColor = accentColor
                 ),
                 modifier = Modifier
                     .weight(1f)
@@ -255,7 +272,7 @@ fun DraggableChecklistItem(
                 Icon(
                     imageVector = Icons.Default.Edit,
                     contentDescription = "Confirm Edit",
-                    tint = Color(0xFFFF5722)
+                    tint = accentColor
                 )
             }
 
@@ -263,7 +280,7 @@ fun DraggableChecklistItem(
             Text(
                 text = text,
                 modifier = Modifier.weight(1f),
-                color = Color.Gray,
+                color =accentColor,
                 fontWeight = FontWeight.SemiBold
             )
 
@@ -271,7 +288,7 @@ fun DraggableChecklistItem(
                 Icon(
                     imageVector = Icons.Default.Edit,
                     contentDescription = "Edit",
-                    tint = Color(0xFFFF5722)
+                    tint = accentColor
                 )
             }
         }
@@ -280,7 +297,7 @@ fun DraggableChecklistItem(
             Icon(
                 imageVector = Icons.Default.Delete,
                 contentDescription = "Delete",
-                tint = Color.Gray
+                tint = accentColor
             )
         }
     }

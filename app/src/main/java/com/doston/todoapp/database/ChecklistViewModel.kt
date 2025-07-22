@@ -2,6 +2,7 @@ package com.doston.todoapp.database
 
 
 import android.app.Application
+import android.content.Context
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
@@ -14,18 +15,18 @@ import kotlinx.coroutines.launch
 
 class ChecklistViewModel(application: Application) : AndroidViewModel(application) {
     private val dbHelper = ChecklistDbHelper(application)
-
+    private val sharedPreferences = application.getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
+    private val _themeDark = MutableStateFlow(
+        sharedPreferences.getBoolean("is_dark_theme", true) // Default to dark theme
+    )
     private val _checklists = MutableStateFlow<List<Checklist>>(emptyList())
     val checklists = _checklists.asStateFlow()
 
-    val newChecklistTitle = mutableStateOf("")
     val newChecklistItems = mutableStateListOf<String>()
 
-    // Updated theme management with StateFlow for better Compose integration
-    private val _themeDark = MutableStateFlow(true)
+
     val themeDark = _themeDark.asStateFlow()
 
-    // Keep the old mutableStateOf for backward compatibility if needed elsewhere
     val themeDarkState = mutableStateOf(true)
 
     var editingIndex = mutableStateOf(-1)
@@ -107,19 +108,17 @@ class ChecklistViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    // Updated theme methods
-    fun toggleTheme() {
-        val newValue = !_themeDark.value
-        _themeDark.value = newValue
-        themeDarkState.value = newValue
-    }
+
 
     fun setTheme(isDark: Boolean) {
         _themeDark.value = isDark
         themeDarkState.value = isDark
+
+        // Save to SharedPreferences
+        sharedPreferences.edit()
+            .putBoolean("is_dark_theme", isDark)
+            .apply()
     }
 
-    fun getCurrentTheme(): Boolean {
-        return _themeDark.value
-    }
+
 }

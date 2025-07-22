@@ -28,12 +28,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -41,6 +44,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.doston.todoapp.R
+import com.doston.todoapp.database.ChecklistViewModel
+import com.doston.todoapp.ui.theme.ButtonColor
 import com.doston.todoapp.ui.theme.MainColor
 import com.doston.todoapp.ui.theme.WhiteColor
 import com.doston.todoapp.ui.theme.YellowColor
@@ -48,13 +53,21 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnBoardingScreen(onFinish: () -> Unit) {
+fun OnBoardingScreen(onFinish: () -> Unit,viewModel: ChecklistViewModel) {
     val pagerState = rememberPagerState(
         initialPage = 0,
         pageCount = { listData.count() }
     )
     val (selectedPage, setSelectedPage) = remember { mutableIntStateOf(0) }
+    val checklists by viewModel.archivedChecklists.collectAsState()
+    val isDarkTheme by viewModel.themeDark.collectAsState()
 
+    // Dynamic theme colors
+    val backgroundColor = if (isDarkTheme) MainColor else Color(0xFFF5F5F5)
+    val textColor = if (isDarkTheme) WhiteColor else Color.Black
+    val cardColor = if (isDarkTheme) ButtonColor else Color.White
+    val accentColor = if (isDarkTheme) YellowColor else Color(0xFF6200EE)
+    val topBarColor = if (isDarkTheme) ButtonColor else Color.White
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect { page ->
             setSelectedPage(page)
@@ -68,11 +81,11 @@ fun OnBoardingScreen(onFinish: () -> Unit) {
             .fillMaxSize()
             .padding(WindowInsets.systemBars.asPaddingValues())
             .background(
-                MainColor
+                backgroundColor
             )
     ) {
 
-        Text(text = "Skip", color = YellowColor, fontSize = 15.sp, modifier = Modifier.clickable {
+        Text(text = "Skip", color = textColor, fontSize = 15.sp, modifier = Modifier.clickable {
             if (selectedPage == listData.size - 1) {
                 onFinish()
             } else {
@@ -111,7 +124,7 @@ fun OnBoardingScreen(onFinish: () -> Unit) {
 
                     Text(
                         text = listData[page].title,
-                        color = WhiteColor,
+                        color = textColor,
                         fontSize = 30.sp,
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.SemiBold,
@@ -122,7 +135,7 @@ fun OnBoardingScreen(onFinish: () -> Unit) {
 
                     Text(
                         text = listData[page].desc,
-                        color = WhiteColor,
+                        color = textColor,
                         fontSize = 16.sp,
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Medium,
@@ -136,10 +149,4 @@ fun OnBoardingScreen(onFinish: () -> Unit) {
 
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun OnBoardingPreview() {
-    OnBoardingScreen {}
 }

@@ -2,6 +2,7 @@ package com.doston.todoapp.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -38,35 +41,54 @@ import com.doston.todoapp.ui.theme.MainColor
 import com.doston.todoapp.ui.theme.WhiteColor
 
 @Composable
-fun HomeScreen(navController: NavController,viewModel:ChecklistViewModel) {
-
+fun HomeScreen(navController: NavController, viewModel: ChecklistViewModel) {
     val isDarkTheme by viewModel.themeDark.collectAsState()
-    Scaffold(topBar = {
-        Text(
-            text = "Main Menu",
-            color = WhiteColor,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
-    }, containerColor = MainColor,
+
+    // Dynamic theme colors
+    val backgroundColor = if (isDarkTheme) MainColor else Color(0xFFF5F5F5)
+    val textColor = if (isDarkTheme) WhiteColor else Color.Black
+    val cardColor = if (isDarkTheme) ButtonColor else Color.White
+    val dividerColor = if (isDarkTheme) ButtonColor else Color(0xFFE0E0E0)
+    val navBarColor = if (isDarkTheme) ButtonColor else Color.White
+    val navIconColor = if (isDarkTheme) ButtonBlack else Color.Black
+    val bottomBarColor = if (isDarkTheme) ButtonColor else Color.White
+
+    Scaffold(
+        topBar = {
+            Text(
+                text = "Main Menu",
+                color = textColor,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+                    ,
+                textAlign = TextAlign.Center
+            )
+        },
+        containerColor = backgroundColor,
         bottomBar = {
-            NavigationBar(containerColor = ButtonColor, contentColor = ButtonBlack) {
+            NavigationBar(
+                containerColor = bottomBarColor,
+                contentColor = navIconColor
+            ) {
                 NavigationBarItem(
                     selected = false,
                     onClick = { navController.navigate("checklist") },
                     icon = {
                         Icon(
                             painterResource(R.drawable.checklist),
-                            tint = ButtonBlack,
+                            tint = navIconColor,
                             contentDescription = null,
                             modifier = Modifier.size(20.dp)
                         )
                     },
-                    label = { Text("Checklists", color = ButtonBlack) }
+                    label = { Text("Checklists", color = navIconColor) },
+                    colors = NavigationBarItemDefaults.colors(
+                        unselectedIconColor = navIconColor,
+                        unselectedTextColor = navIconColor
+                    )
                 )
                 NavigationBarItem(
                     selected = false,
@@ -74,12 +96,16 @@ fun HomeScreen(navController: NavController,viewModel:ChecklistViewModel) {
                     icon = {
                         Icon(
                             painterResource(R.drawable.template),
-                            tint = ButtonBlack,
+                            tint = navIconColor,
                             contentDescription = null,
                             modifier = Modifier.size(20.dp)
                         )
                     },
-                    label = { Text("Templates", color = ButtonBlack) }
+                    label = { Text("Templates", color = navIconColor) },
+                    colors = NavigationBarItemDefaults.colors(
+                        unselectedIconColor = navIconColor,
+                        unselectedTextColor = navIconColor
+                    )
                 )
                 NavigationBarItem(
                     selected = false,
@@ -87,12 +113,16 @@ fun HomeScreen(navController: NavController,viewModel:ChecklistViewModel) {
                     icon = {
                         Icon(
                             painterResource(R.drawable.archive),
-                            tint = ButtonBlack,
+                            tint = navIconColor,
                             contentDescription = null,
                             modifier = Modifier.size(20.dp)
                         )
                     },
-                    label = { Text("Archive", color = ButtonBlack) }
+                    label = { Text("Archive", color = navIconColor) },
+                    colors = NavigationBarItemDefaults.colors(
+                        unselectedIconColor = navIconColor,
+                        unselectedTextColor = navIconColor
+                    )
                 )
                 NavigationBarItem(
                     selected = false,
@@ -100,80 +130,100 @@ fun HomeScreen(navController: NavController,viewModel:ChecklistViewModel) {
                     icon = {
                         Icon(
                             painterResource(R.drawable.setting),
-                            tint = ButtonBlack,
+                            tint = navIconColor,
                             contentDescription = null,
                             modifier = Modifier.size(20.dp)
                         )
                     },
-                    label = { Text("Settings", color = ButtonBlack) }
+                    label = { Text("Settings", color = navIconColor) },
+                    colors = NavigationBarItemDefaults.colors(
+                        unselectedIconColor = navIconColor,
+                        unselectedTextColor = navIconColor
+                    )
                 )
-
             }
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .background(MainColor)
+                .background(backgroundColor)
                 .fillMaxSize()
                 .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-
             HorizontalDivider(
                 modifier = Modifier.padding(vertical = 4.dp),
-                color = ButtonColor
+                color = dividerColor
             )
+
             CustomButton(
                 icon = R.drawable.checklist,
                 text = "Checklists",
                 route = "checklist",
-                navController = navController
+                navController = navController,
+                cardColor = cardColor,
+                textColor = textColor
             )
             CustomButton(
                 icon = R.drawable.template,
                 text = "Templates",
                 route = "template",
-                navController = navController
+                navController = navController,
+                cardColor = cardColor,
+                textColor = textColor
             )
             CustomButton(
                 icon = R.drawable.archive,
                 text = "Archive",
                 route = "archive",
-                navController = navController
+                navController = navController,
+                cardColor = cardColor,
+                textColor = textColor
             )
             CustomButton(
                 icon = R.drawable.setting,
                 text = "Settings",
                 route = "settings",
-                navController = navController
+                navController = navController,
+                cardColor = cardColor,
+                textColor = textColor
             )
             CustomButton(
                 icon = R.drawable.setting,
                 text = "Help & Support",
                 route = "support",
-                navController = navController
+                navController = navController,
+                cardColor = cardColor,
+                textColor = textColor
             )
             CustomButton(
                 icon = R.drawable.setting,
                 text = "About App",
                 route = "about",
-                navController = navController
+                navController = navController,
+                cardColor = cardColor,
+                textColor = textColor
             )
-
-
         }
     }
 }
 
 @Composable
-fun CustomButton(icon: Int, text: String, route: String, navController: NavController) {
+fun CustomButton(
+    icon: Int,
+    text: String,
+    route: String,
+    navController: NavController,
+    cardColor: Color,
+    textColor: Color
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .fillMaxWidth()
-            .background(ButtonColor, shape = RoundedCornerShape(15.dp))
+            .background(cardColor, shape = RoundedCornerShape(15.dp))
             .padding(horizontal = 16.dp, vertical = 16.dp)
             .clickable { navController.navigate(route) }
     ) {
@@ -182,12 +232,12 @@ fun CustomButton(icon: Int, text: String, route: String, navController: NavContr
                 painterResource(icon),
                 modifier = Modifier.size(20.dp),
                 contentDescription = null,
-                tint = Color.White
+                tint = textColor
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = text,
-                color = WhiteColor,
+                color = textColor,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold
             )
@@ -195,14 +245,8 @@ fun CustomButton(icon: Int, text: String, route: String, navController: NavContr
         Icon(
             painterResource(R.drawable.next),
             contentDescription = null,
-            tint = Color.Unspecified,
+            tint = textColor,
             modifier = Modifier.size(20.dp)
         )
     }
 }
-
-
-
-
-
-

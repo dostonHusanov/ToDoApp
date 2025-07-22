@@ -32,7 +32,7 @@ fun MainNav(context: Context,viewModel: ChecklistViewModel) {
         startDestination = if (hasCompletedOnboarding.value) "main" else "loading"
     ) {
         composable("loading") {
-           LoadingScreen(navController)
+           LoadingScreen(navController,viewModel)
         }
 
 
@@ -43,11 +43,11 @@ fun MainNav(context: Context,viewModel: ChecklistViewModel) {
                 hasCompletedOnboarding.value = true
                 setOnboardingCompleted(context, true)
                 navController.navigate("main")
-            })
+            },viewModel)
         }
 
         composable("main") {
-            HomeScreen(navController = navController)
+            HomeScreen(navController = navController,viewModel)
         }
 
 
@@ -57,8 +57,8 @@ fun MainNav(context: Context,viewModel: ChecklistViewModel) {
         composable("settings") { SettingsScreen(navController,viewModel) }
         composable("create") { CreateChecklistScreen(navController,viewModel) }
         composable("archive") { ArchiveScreen(navController,viewModel) }
-        composable("about") { AboutScreen() }
-        composable("support") { SupportScreen()  }
+        composable("about") { AboutScreen(viewModel) }
+        composable("support") { SupportScreen(viewModel)  }
 
     }
 }
