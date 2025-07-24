@@ -2,19 +2,19 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
 }
 
 android {
-    namespace = "com.doston.todoapp"
+    namespace = "com.doston.checklist"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.doston.todoapp"
+        applicationId = "com.doston.checklist"
         minSdk = 28
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -60,4 +60,5 @@ dependencies {
     implementation (libs.androidx.navigation.compose)
 
     implementation (libs.reorderable)
+    implementation(libs.kotlinx.serialization.json)
 }
