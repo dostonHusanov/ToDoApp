@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.doston.checklist.AboutScreen
 import com.doston.checklist.SettingsScreen
 import com.doston.checklist.SupportScreen
+import com.doston.checklist.archive.ArchiveInfoScreen
 import com.doston.checklist.archive.ArchiveScreen
 import com.doston.checklist.checklist.ActiveChecklistScreen
 import com.doston.checklist.checklist.CheckListInfoScreen
@@ -59,7 +60,9 @@ fun MainNav(context: Context, viewModel: ChecklistViewModel) {
         composable("archive") { ArchiveScreen(navController, viewModel) }
         composable("about") { AboutScreen(viewModel) }
         composable("support") { SupportScreen(viewModel) }
-
+        composable("archive_info") {
+            ArchiveInfoScreen(viewModel = viewModel, navController = navController)
+        }
         composable("info") {
             CheckListInfoScreen(navController = navController, viewModel = viewModel)
         }
