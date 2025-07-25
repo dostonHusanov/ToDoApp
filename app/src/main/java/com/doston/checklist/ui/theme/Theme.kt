@@ -15,49 +15,23 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-// Fixed Dark Color Scheme
 private val DarkColorScheme = darkColorScheme(
     primary = AppColors.AccentOrange,
-    onPrimary = WhiteColor,
-    primaryContainer = AppColors.AccentOrangeDark,
-    onPrimaryContainer = WhiteColor,
     secondary = AppColors.AccentOrangeLight,
-    onSecondary = MainColor,
     tertiary = Pink80,
-    background = AppColors.DarkBackground,
-    onBackground = AppColors.DarkOnBackground,
-    surface = AppColors.DarkSurface,
-    onSurface = AppColors.DarkOnSurface,
-    surfaceVariant = AppColors.DarkSurfaceVariant,
-    onSurfaceVariant = AppColors.DarkOnSurfaceVariant,
-    outline = AppColors.DarkOutline,
-    error = AppColors.ErrorRed,
-    onError = WhiteColor
-)
 
-// Fixed Light Color Scheme
+    )
+
 private val LightColorScheme = lightColorScheme(
     primary = AppColors.AccentOrange,
-    onPrimary = WhiteColor,
-    primaryContainer = AppColors.AccentOrangeLight,
-    onPrimaryContainer = MainColor,
     secondary = AppColors.AccentOrangeDark,
-    onSecondary = WhiteColor,
     tertiary = Pink40,
-    background = AppColors.LightBackground,
-    onBackground = AppColors.LightOnBackground,
-    surface = AppColors.LightSurface,
-    onSurface = AppColors.LightOnSurface,
-    surfaceVariant = AppColors.LightSurfaceVariant,
-    onSurfaceVariant = AppColors.LightOnSurfaceVariant,
-    outline = AppColors.LightOutline,
-    error = AppColors.ErrorRed,
-    onError = WhiteColor
-)
+
+    )
 
 @Composable
 fun ToDoAppTheme(
-    darkTheme: Boolean, // Remove default parameter - always pass explicit value
+    darkTheme: Boolean,
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
@@ -66,6 +40,7 @@ fun ToDoAppTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
+
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }

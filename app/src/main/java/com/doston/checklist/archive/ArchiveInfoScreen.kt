@@ -32,14 +32,12 @@ fun ArchiveInfoScreen(
 ) {
     val isDarkTheme by viewModel.themeDark.collectAsState()
 
-    // Dynamic theme colors
     val backgroundColor = if (isDarkTheme) MainColor else Color(0xFFF5F5F5)
     val textColor = if (isDarkTheme) WhiteColor else Color.Black
     val cardColor = if (isDarkTheme) ButtonColor else Color.White
     val accentColor = if (isDarkTheme) YellowColor else Color(0xFF6200EE)
     val dividerColor = if (isDarkTheme) ButtonColor else Color(0xFFE0E0E0)
 
-    // Get the archived checklist data from navigation
     val checklistJson = navController.previousBackStackEntry
         ?.savedStateHandle
         ?.get<String>("archive_json")
@@ -109,7 +107,7 @@ fun ArchiveInfoScreen(
                 .padding(innerPadding)
                 .padding(16.dp)
         ) {
-            // Header with title, date and completion status
+
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = cardColor),
@@ -177,7 +175,6 @@ fun ArchiveInfoScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Items list (read-only)
             Text(
                 text = "Checklist Items (${checklist.items.size})",
                 fontSize = 18.sp,
@@ -202,7 +199,7 @@ fun ArchiveInfoScreen(
                                 .padding(16.dp)
                                 .fillMaxWidth()
                         ) {
-                            // Read-only checkbox indicator
+
                             Box(
                                 modifier = Modifier
                                     .size(24.dp)
@@ -225,7 +222,7 @@ fun ArchiveInfoScreen(
                                         fontWeight = FontWeight.Bold
                                     )
                                 } else {
-                                    // Empty checkbox border
+
                                     Box(
                                         modifier = Modifier
                                             .size(24.dp)
@@ -234,14 +231,14 @@ fun ArchiveInfoScreen(
                                                 RoundedCornerShape(4.dp)
                                             )
                                             .run {
-                                                // Add border using composed modifier
+
                                                 this.background(
                                                     Color.Transparent,
                                                     RoundedCornerShape(4.dp)
                                                 )
                                             }
                                     ) {
-                                        // Border effect
+
                                         Box(
                                             modifier = Modifier
                                                 .fillMaxSize()
@@ -250,7 +247,7 @@ fun ArchiveInfoScreen(
                                                     RoundedCornerShape(4.dp)
                                                 )
                                         ) {
-                                            // Create border effect manually
+
                                             Box(
                                                 modifier = Modifier
                                                     .fillMaxSize()
@@ -261,7 +258,7 @@ fun ArchiveInfoScreen(
                                                     )
                                             )
                                         }
-                                        // Outer border
+
                                         Box(
                                             modifier = Modifier
                                                 .fillMaxSize()

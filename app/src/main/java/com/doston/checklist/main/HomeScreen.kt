@@ -24,8 +24,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -41,13 +43,11 @@ import com.doston.checklist.ui.theme.WhiteColor
 @Composable
 fun HomeScreen(navController: NavController, viewModel: ChecklistViewModel) {
     val isDarkTheme by viewModel.themeDark.collectAsState()
-
     val backgroundColor = if (isDarkTheme) MainColor else Color(0xFFF5F5F5)
     val textColor = if (isDarkTheme) WhiteColor else Color.Black
     val cardColor = if (isDarkTheme) ButtonColor else Color.White
     val dividerColor = if (isDarkTheme) ButtonColor else Color(0xFFE0E0E0)
     val navIconColor = if (isDarkTheme) ButtonBlack else Color.Black
-
     Scaffold(
         topBar = {
             Text(
@@ -64,9 +64,10 @@ fun HomeScreen(navController: NavController, viewModel: ChecklistViewModel) {
         containerColor = backgroundColor,
         bottomBar = {
             NavigationBar(
-                containerColor = cardColor, // Changed: Use cardColor instead of navBarColor
+                containerColor = cardColor,
                 contentColor = navIconColor
             ) {
+                val title=R.string.checklist
                 NavigationBarItem(
                     selected = false,
                     onClick = { navController.navigate("checklist") },
@@ -78,11 +79,12 @@ fun HomeScreen(navController: NavController, viewModel: ChecklistViewModel) {
                             modifier = Modifier.size(20.dp)
                         )
                     },
-                    label = { Text("Checklists", color = navIconColor) },
+
+                    label = { Text(text = stringResource(id = R.string.checklist), color = navIconColor) },
                     colors = NavigationBarItemDefaults.colors(
                         unselectedIconColor = navIconColor,
                         unselectedTextColor = navIconColor,
-                        indicatorColor = cardColor // Add this to match background
+                        indicatorColor = cardColor
                     )
                 )
 
@@ -101,7 +103,7 @@ fun HomeScreen(navController: NavController, viewModel: ChecklistViewModel) {
                     colors = NavigationBarItemDefaults.colors(
                         unselectedIconColor = navIconColor,
                         unselectedTextColor = navIconColor,
-                        indicatorColor = cardColor // Add this to match background
+                        indicatorColor = cardColor
                     )
                 )
                 NavigationBarItem(
@@ -119,7 +121,7 @@ fun HomeScreen(navController: NavController, viewModel: ChecklistViewModel) {
                     colors = NavigationBarItemDefaults.colors(
                         unselectedIconColor = navIconColor,
                         unselectedTextColor = navIconColor,
-                        indicatorColor = cardColor // Add this to match background
+                        indicatorColor = cardColor
                     )
                 )
             }
@@ -192,6 +194,8 @@ fun CustomButton(
     cardColor: Color,
     textColor: Color
 ) {
+    Column(modifier = Modifier.fillMaxWidth() .fillMaxWidth().clip(RoundedCornerShape(15.dp))
+        .background(cardColor).clickable { navController.navigate(route) }) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -199,7 +203,7 @@ fun CustomButton(
             .fillMaxWidth()
             .background(cardColor, shape = RoundedCornerShape(15.dp))
             .padding(horizontal = 16.dp, vertical = 16.dp)
-            .clickable { navController.navigate(route) }
+
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
@@ -222,5 +226,5 @@ fun CustomButton(
             tint = textColor,
             modifier = Modifier.size(20.dp)
         )
-    }
+    }}
 }

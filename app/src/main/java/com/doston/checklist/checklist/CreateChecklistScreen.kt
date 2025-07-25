@@ -59,7 +59,6 @@ fun CreateChecklistScreen(navController: NavController, viewModel: ChecklistView
     val checklists by viewModel.archivedChecklists.collectAsState()
     val isDarkTheme by viewModel.themeDark.collectAsState()
 
-    // Dynamic theme colors
     val backgroundColor = if (isDarkTheme) MainColor else Color(0xFFF5F5F5)
     val textColor = if (isDarkTheme) WhiteColor else Color.Black
     val cardColor = if (isDarkTheme) ButtonColor else Color.White

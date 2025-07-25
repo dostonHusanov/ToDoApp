@@ -51,7 +51,6 @@ fun CheckListInfoScreen(
         return
     }
 
-    // Initialize checked states from the database
     var checkedStates by remember {
         mutableStateOf(
             checklist.items.mapIndexed { index, item ->
@@ -66,7 +65,7 @@ fun CheckListInfoScreen(
             .background(backgroundColor)
             .padding(16.dp)
     ) {
-        // Header with title and progress
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -122,7 +121,7 @@ fun CheckListInfoScreen(
                                 checkedStates = checkedStates.toMutableMap().apply {
                                     this[item] = isChecked
                                 }
-                                // Update in database
+
                                 viewModel.toggleItemCompletion(checklist.id, index, isChecked)
                             },
                             colors = CheckboxDefaults.colors(

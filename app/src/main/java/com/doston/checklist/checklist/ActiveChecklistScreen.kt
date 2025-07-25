@@ -50,7 +50,6 @@ import com.doston.checklist.ui.theme.YellowColor
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-// Updated ActiveChecklistScreen.kt - replace the ChecklistItemCard call
 @Composable
 fun ActiveChecklistScreen(navController: NavController, viewModel: ChecklistViewModel) {
     val checklists by viewModel.checklists.collectAsState()
@@ -215,7 +214,6 @@ fun ChecklistItemCard(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
 
-                    // Progress bar with completion info
                     Row (verticalAlignment = Alignment.CenterVertically)  {
                         LinearProgressIndicator(
                             progress = { progress },

@@ -1,5 +1,6 @@
 package com.doston.checklist
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -13,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,8 +26,6 @@ import com.doston.checklist.ui.theme.ButtonColor
 @Composable
 fun SettingsScreen(navController: NavController, viewModel: ChecklistViewModel) {
     val isDarkTheme by viewModel.themeDark.collectAsState()
-
-    // Define colors based on theme
     val dividerColor = if (isDarkTheme) ButtonColor else Color(0xFFE0E0E0)
     val backgroundColor = if (isDarkTheme) Color(0xFF1C1C1C) else Color.White
     val surfaceColor = if (isDarkTheme) Color(0xFF2C2C2C) else Color(0xFFF5F5F5)
@@ -33,13 +33,12 @@ fun SettingsScreen(navController: NavController, viewModel: ChecklistViewModel) 
     val secondaryTextColor = if (isDarkTheme) Color(0xFFB0B0B0) else Color(0xFF666666)
     val accentColor = Color(0xFFFF5722) // Orange accent color
     val borderColor = if (isDarkTheme) Color(0xFF444444) else Color(0xFFE0E0E0)
-
+val context= LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundColor)
     ) {
-        // Top App Bar
         TopAppBar(
             title = {
                 Text(
@@ -67,13 +66,12 @@ fun SettingsScreen(navController: NavController, viewModel: ChecklistViewModel) 
             color = dividerColor
         )
 
-        // Content
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            // Theme Section
+
             Text(
                 text = "Theme",
                 color = textColor,
@@ -89,14 +87,12 @@ fun SettingsScreen(navController: NavController, viewModel: ChecklistViewModel) 
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            // Theme Selection Buttons
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 24.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                // Dark Theme Button
                 Box(
                     modifier = Modifier
                         .weight(1f)
@@ -121,7 +117,6 @@ fun SettingsScreen(navController: NavController, viewModel: ChecklistViewModel) 
                     )
                 }
 
-                // Light Theme Button
                 Box(
                     modifier = Modifier
                         .weight(1f)
@@ -147,7 +142,6 @@ fun SettingsScreen(navController: NavController, viewModel: ChecklistViewModel) 
                 }
             }
 
-            // Preview Text Box
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -172,7 +166,6 @@ fun SettingsScreen(navController: NavController, viewModel: ChecklistViewModel) 
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Reset to Default Button
             Button(
                 onClick = {
                     viewModel.setTheme(true) // Reset to dark theme as default
@@ -194,10 +187,8 @@ fun SettingsScreen(navController: NavController, viewModel: ChecklistViewModel) 
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // Apply Button
             Button(
                 onClick = {
-                    // Apply changes and navigate back
                     navController.popBackStack()
                 },
                 modifier = Modifier
