@@ -2,41 +2,18 @@ package com.doston.checklist.archive
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -66,11 +43,12 @@ fun ArchiveScreen(navController: NavController, viewModel: ChecklistViewModel) {
     val cardColor = if (isDarkTheme) ButtonColor else Color.White
     val accentColor = if (isDarkTheme) YellowColor else Color(0xFF6200EE)
     val dividerColor = if (isDarkTheme) ButtonColor else Color(0xFFE0E0E0)
+
     Scaffold(
         topBar = {
             Column {
                 Text(
-                    "Archived Checklists",
+                    stringResource(R.string.archived_checklists),
                     color = textColor,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
@@ -106,20 +84,20 @@ fun ArchiveScreen(navController: NavController, viewModel: ChecklistViewModel) {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Icon(
-                            painter = painterResource(R.drawable.delete), // You might want a different icon
-                            contentDescription = "No archived items",
+                            painter = painterResource(R.drawable.delete),
+                            contentDescription = null,
                             tint = textColor.copy(alpha = 0.5f),
                             modifier = Modifier.size(64.dp)
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
-                            "No archived checklists",
+                            stringResource(R.string.no_archived_items),
                             color = textColor.copy(alpha = 0.7f),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Medium
                         )
                         Text(
-                            "Completed checklists will appear here",
+                            stringResource(R.string.no_archived_description),
                             color = textColor.copy(alpha = 0.5f),
                             fontSize = 14.sp,
                             textAlign = TextAlign.Center,
@@ -148,7 +126,10 @@ fun ArchiveScreen(navController: NavController, viewModel: ChecklistViewModel) {
                             onDelete = {
                                 checklistToDelete = checklist.id
                                 showDeleteDialog = true
-                            }, cardColor, textColor, accentColor
+                            },
+                            cardColor,
+                            textColor,
+                            accentColor
                         )
                     }
                 }
@@ -165,7 +146,7 @@ fun ArchiveScreen(navController: NavController, viewModel: ChecklistViewModel) {
                     enabled = checklists.isNotEmpty()
                 ) {
                     Text(
-                        "Clear All",
+                        stringResource(R.string.clear_all),
                         color = Color.White,
                         fontWeight = FontWeight.Bold
                     )
@@ -182,14 +163,14 @@ fun ArchiveScreen(navController: NavController, viewModel: ChecklistViewModel) {
             },
             title = {
                 Text(
-                    "Delete Checklist",
+                    stringResource(R.string.delete_checklist),
                     color = textColor,
                     fontWeight = FontWeight.Bold
                 )
             },
             text = {
                 Text(
-                    "Are you sure you want to permanently delete this archived checklist?",
+                    stringResource(R.string.delete_checklist_confirm),
                     color = textColor
                 )
             },
@@ -203,7 +184,7 @@ fun ArchiveScreen(navController: NavController, viewModel: ChecklistViewModel) {
                         checklistToDelete = null
                     }
                 ) {
-                    Text("Delete", color = Color.Red, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.delete), color = Color.Red, fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
@@ -213,7 +194,7 @@ fun ArchiveScreen(navController: NavController, viewModel: ChecklistViewModel) {
                         checklistToDelete = null
                     }
                 ) {
-                    Text("Cancel", color = textColor)
+                    Text(stringResource(R.string.cancel), color = textColor)
                 }
             },
             containerColor = cardColor
@@ -225,14 +206,14 @@ fun ArchiveScreen(navController: NavController, viewModel: ChecklistViewModel) {
             onDismissRequest = { showClearAllDialog = false },
             title = {
                 Text(
-                    "Clear All Archives",
+                    stringResource(R.string.clear_all_archives),
                     color = textColor,
                     fontWeight = FontWeight.Bold
                 )
             },
             text = {
                 Text(
-                    "Are you sure you want to permanently delete all ${checklists.size} archived checklists? This action cannot be undone.",
+                    stringResource(R.string.clear_all_confirm, checklists.size),
                     color = textColor
                 )
             },
@@ -243,14 +224,12 @@ fun ArchiveScreen(navController: NavController, viewModel: ChecklistViewModel) {
                         showClearAllDialog = false
                     }
                 ) {
-                    Text("Clear All", color = Color.Red, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.clear_all), color = Color.Red, fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
-                TextButton(
-                    onClick = { showClearAllDialog = false }
-                ) {
-                    Text("Cancel", color = textColor)
+                TextButton(onClick = { showClearAllDialog = false }) {
+                    Text(stringResource(R.string.cancel), color = textColor)
                 }
             },
             containerColor = cardColor
@@ -267,15 +246,12 @@ fun ArchiveItem(
     onDelete: () -> Unit,
     cardColor: Color, textColor: Color, accentColor: Color
 ) {
-
-
-
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 14.dp)
-            .clickable { onClick() }, shape = RoundedCornerShape(16.dp),
+            .clickable { onClick() },
+        shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         colors = CardDefaults.cardColors(containerColor = cardColor)
     ) {
@@ -295,12 +271,12 @@ fun ArchiveItem(
                     color = textColor
                 )
                 Text(
-                    text = "Completed: $date",
+                    text = stringResource(R.string.completed_on, date),
                     fontSize = 14.sp,
                     color = textColor.copy(alpha = 0.7f)
                 )
                 Text(
-                    text = "$competedItem completed",
+                    text = stringResource(R.string.completed_count, competedItem),
                     fontSize = 14.sp,
                     color = accentColor,
                     fontWeight = FontWeight.Medium
@@ -309,7 +285,7 @@ fun ArchiveItem(
 
             Icon(
                 painter = painterResource(R.drawable.delete),
-                contentDescription = "Delete",
+                contentDescription = stringResource(R.string.delete),
                 tint = Color.Red,
                 modifier = Modifier
                     .size(32.dp)

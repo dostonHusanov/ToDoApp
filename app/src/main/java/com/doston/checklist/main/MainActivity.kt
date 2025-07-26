@@ -1,5 +1,6 @@
 package com.doston.checklist.main
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.graphics.toArgb
+import com.doston.checklist.LocaleManager
 import com.doston.checklist.database.ChecklistViewModel
 import com.doston.checklist.navigation.MainNav
 import com.doston.checklist.ui.theme.MainColor
@@ -33,4 +35,8 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleManager.applyStoredLocale(newBase))
+    }
+
 }

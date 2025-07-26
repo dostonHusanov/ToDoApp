@@ -51,6 +51,8 @@ import java.util.Locale
 import androidx.compose.material3.*
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
+import com.doston.checklist.R
 
 @SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -86,12 +88,10 @@ fun CreateChecklistScreen(navController: NavController, viewModel: ChecklistView
             .padding(16.dp), verticalArrangement = Arrangement.SpaceBetween
     ) {
 Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.SpaceBetween) {
-
-
     OutlinedTextField(
         value = viewModel.checklistTitle.value,
         onValueChange = { viewModel.checklistTitle.value = it },
-        label = { Text("Checklist Name") },
+        label = { Text(stringResource(id = R.string.checklist_name)) },
         colors = textFieldColors,
         modifier = Modifier.fillMaxWidth()
     )
@@ -101,7 +101,7 @@ Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Spa
     OutlinedTextField(
         value = viewModel.newItemText.value,
         onValueChange = { viewModel.newItemText.value = it },
-        label = { Text("New Item") },
+        label = { Text(stringResource(id = R.string.new_item)) },
         colors = textFieldColors,
         modifier = Modifier.fillMaxWidth()
     )
@@ -119,7 +119,7 @@ Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Spa
             .fillMaxWidth()
             .height(43.dp)
     ) {
-        Text("Add Item", color = textColor, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+        Text(stringResource(id = R.string.add_item), color = textColor, fontWeight = FontWeight.Bold, fontSize = 15.sp)
     }
 }
 
@@ -148,7 +148,7 @@ Column(modifier = Modifier.fillMaxSize().weight(1f), horizontalAlignment = Align
                     .weight(1f)
                     .height(43.dp)
             ) {
-                Text("Cancel", color = textColor, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                Text(stringResource(R.string.cancel), color = textColor, fontWeight = FontWeight.Bold, fontSize = 15.sp)
             }
 
             Spacer(modifier = Modifier.width(8.dp))
@@ -175,7 +175,7 @@ Column(modifier = Modifier.fillMaxSize().weight(1f), horizontalAlignment = Align
                     .weight(1f)
                     .height(43.dp)
             ) {
-                Text("Save", color = textColor, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                Text(stringResource(R.string.save), color = textColor, fontWeight = FontWeight.Bold, fontSize = 15.sp)
             }
         }
     }
@@ -270,7 +270,7 @@ fun DraggableChecklistItem(
             IconButton(onClick = onConfirmEditClick) {
                 Icon(
                     imageVector = Icons.Default.Edit,
-                    contentDescription = "Confirm Edit",
+                    contentDescription = stringResource(R.string.confirm_edit),
                     tint = accentColor
                 )
             }
@@ -286,7 +286,7 @@ fun DraggableChecklistItem(
             IconButton(onClick = onEditClick) {
                 Icon(
                     imageVector = Icons.Default.Edit,
-                    contentDescription = "Edit",
+                    contentDescription = stringResource(R.string.edit),
                     tint = accentColor
                 )
             }
@@ -295,7 +295,7 @@ fun DraggableChecklistItem(
         IconButton(onClick = onDeleteClick) {
             Icon(
                 imageVector = Icons.Default.Delete,
-                contentDescription = "Delete",
+                contentDescription = stringResource(R.string.delete),
                 tint = accentColor
             )
         }

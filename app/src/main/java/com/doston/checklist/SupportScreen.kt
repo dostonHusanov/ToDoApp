@@ -43,6 +43,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -53,6 +54,7 @@ import com.doston.checklist.ui.theme.ButtonColor
 import com.doston.checklist.ui.theme.MainColor
 import com.doston.checklist.ui.theme.WhiteColor
 import com.doston.checklist.ui.theme.YellowColor
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,7 +76,7 @@ fun SupportScreen(viewModel: ChecklistViewModel) {
         topBar = {
             Column {
                 Text(
-                    "Support & Help",
+                    stringResource(R.string.support_help),
                     color = textColor,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
@@ -100,7 +102,7 @@ fun SupportScreen(viewModel: ChecklistViewModel) {
         ) {
 
             Text(
-                text = "Frequently Asked Questions",
+                text = stringResource(R.string.faq_title),
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
                 color = textColor,
@@ -108,34 +110,13 @@ fun SupportScreen(viewModel: ChecklistViewModel) {
             )
 
             val faqItems = listOf(
-                FAQItem(
-                    "How do I create a new checklist?",
-                    "Tap the '+' button on the main screen, enter your checklist title, and start adding items. You can add as many items as you need for your checklist."
-                ),
-                FAQItem(
-                    "How do I mark items as complete?",
-                    "Simply tap the checkbox next to any item to mark it as complete or incomplete. Completed items will show a checkmark and strikethrough text."
-                ),
-                FAQItem(
-                    "Where do completed checklists go?",
-                    "When you complete all items in a checklist, it automatically moves to the Archive section. You can access archived checklists from the Archive tab."
-                ),
-                FAQItem(
-                    "Can I edit a checklist after creating it?",
-                    "Yes, you can edit checklist titles and add/remove items at any time before archiving. Simply tap on the checklist to open the edit view."
-                ),
-                FAQItem(
-                    "How do I switch between dark and light themes?",
-                    "The app automatically follows your system theme settings. You can also manually toggle the theme in the settings menu within the app."
-                ),
-                FAQItem(
-                    "Is my data saved locally?",
-                    "Yes, all your checklists and data are stored locally on your device. Your data remains private and accessible even without an internet connection."
-                ),
-                FAQItem(
-                    "How do I restore deleted checklists?",
-                    "Currently, there's no undo feature for deleted checklists. However, completed checklists are automatically archived and can be found in the Archive section."
-                )
+                FAQItem(stringResource(R.string.faq_q1), stringResource(R.string.faq_a1)),
+                FAQItem(stringResource(R.string.faq_q2), stringResource(R.string.faq_a2)),
+                FAQItem(stringResource(R.string.faq_q3), stringResource(R.string.faq_a3)),
+                FAQItem(stringResource(R.string.faq_q4), stringResource(R.string.faq_a4)),
+                FAQItem(stringResource(R.string.faq_q5), stringResource(R.string.faq_a5)),
+                FAQItem(stringResource(R.string.faq_q6), stringResource(R.string.faq_a6)),
+                FAQItem(stringResource(R.string.faq_q7), stringResource(R.string.faq_a7))
             )
 
             faqItems.forEachIndexed { index, faq ->
@@ -153,7 +134,7 @@ fun SupportScreen(viewModel: ChecklistViewModel) {
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = "Still need help?",
+                text = stringResource(R.string.still_need_help),
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
                 color = textColor,
@@ -161,7 +142,7 @@ fun SupportScreen(viewModel: ChecklistViewModel) {
             )
 
             Text(
-                text = "Send us a message and we'll get back to you as soon as possible.",
+                text = stringResource(R.string.send_us_message),
                 fontSize = 14.sp,
                 color = textColor.copy(alpha = 0.7f),
                 modifier = Modifier.padding(bottom = 16.dp)
@@ -178,7 +159,7 @@ fun SupportScreen(viewModel: ChecklistViewModel) {
                     modifier = Modifier.padding(20.dp)
                 ) {
                     Text(
-                        text = "Contact Form",
+                        text = stringResource(R.string.contact_form),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = accentColor,
@@ -188,7 +169,7 @@ fun SupportScreen(viewModel: ChecklistViewModel) {
                     OutlinedTextField(
                         value = fullName,
                         onValueChange = { fullName = it },
-                        label = { Text("Full Name", color = textColor.copy(alpha = 0.7f)) },
+                        label = { Text(stringResource(R.string.full_name), color = textColor.copy(alpha = 0.7f)) },
                         modifier = Modifier.fillMaxWidth(),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = accentColor,
@@ -205,7 +186,7 @@ fun SupportScreen(viewModel: ChecklistViewModel) {
                     OutlinedTextField(
                         value = message,
                         onValueChange = { message = it },
-                        label = { Text("Your Message", color = textColor.copy(alpha = 0.7f)) },
+                        label = { Text(stringResource(R.string.your_message), color = textColor.copy(alpha = 0.7f)) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(120.dp),
@@ -228,7 +209,7 @@ fun SupportScreen(viewModel: ChecklistViewModel) {
                             } else {
                                 Toast.makeText(
                                     context,
-                                    "Please fill in all fields",
+                                    context.getString(R.string.fill_all_fields),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -245,13 +226,13 @@ fun SupportScreen(viewModel: ChecklistViewModel) {
                         ) {
                             Icon(
                                 painter = painterResource(id = android.R.drawable.ic_menu_send),
-                                contentDescription = "Send",
+                                contentDescription = null,
                                 modifier = Modifier.size(20.dp),
                                 tint = Color.White
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                "Send Message",
+                                stringResource(R.string.send_message),
                                 color = Color.White,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp
@@ -262,7 +243,7 @@ fun SupportScreen(viewModel: ChecklistViewModel) {
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Text(
-                        text = "Your message will be copied to clipboard and Telegram will open automatically.",
+                        text = stringResource(R.string.message_clipboard_hint),
                         fontSize = 12.sp,
                         color = textColor.copy(alpha = 0.6f),
                         textAlign = TextAlign.Center,
@@ -284,7 +265,7 @@ fun SupportScreen(viewModel: ChecklistViewModel) {
                     modifier = Modifier.padding(20.dp)
                 ) {
                     Text(
-                        text = "Other Ways to Reach Us",
+                        text = stringResource(R.string.other_ways),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = accentColor
@@ -294,7 +275,7 @@ fun SupportScreen(viewModel: ChecklistViewModel) {
 
                     ContactMethodItem(
                         icon = android.R.drawable.ic_dialog_email,
-                        title = "Email Support",
+                        title = stringResource(R.string.email_support),
                         subtitle = "husanovdostonbek1010@gmail.com",
                         textColor = textColor,
                         accentColor = accentColor
@@ -304,7 +285,7 @@ fun SupportScreen(viewModel: ChecklistViewModel) {
 
                     ContactMethodItem(
                         icon = android.R.drawable.ic_menu_call,
-                        title = "Telegram",
+                        title = stringResource(R.string.telegram),
                         subtitle = "Dostonbek_Husanov",
                         textColor = textColor,
                         accentColor = accentColor

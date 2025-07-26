@@ -1,5 +1,6 @@
 package com.doston.checklist
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -16,13 +17,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import android.content.res.Configuration
 import android.os.Build
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.graphics.Color
+import com.doston.checklist.database.ChecklistViewModel
+import com.doston.checklist.ui.theme.ButtonColor
+import com.doston.checklist.ui.theme.MainColor
+import com.doston.checklist.ui.theme.WhiteColor
+import com.doston.checklist.ui.theme.YellowColor
 import java.util.*
 
 @Composable
-fun LanguageSelector(context: Context, onLanguageChanged: (Context) -> Unit) {
+fun LanguageSelector(context: Context, onLanguageChanged: (String) -> Unit,viewModel: ChecklistViewModel) {
     val languages = listOf("en", "ru", "uz")
     var expanded by remember { mutableStateOf(false) }
-    var selectedLang by remember { mutableStateOf("en") }
+    var selectedLang by remember { mutableStateOf(LocaleManager.getLanguage(context)) }
+
+
 
     Box {
         Text(
@@ -31,6 +41,7 @@ fun LanguageSelector(context: Context, onLanguageChanged: (Context) -> Unit) {
                 .clickable { expanded = true }
                 .padding(16.dp)
         )
+
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false }
@@ -41,8 +52,7 @@ fun LanguageSelector(context: Context, onLanguageChanged: (Context) -> Unit) {
                     onClick = {
                         selectedLang = lang
                         expanded = false
-                        val newContext = context.setLocale(lang)
-                        onLanguageChanged(newContext)
+                        onLanguageChanged(lang)
                     }
                 )
             }
@@ -51,18 +61,4 @@ fun LanguageSelector(context: Context, onLanguageChanged: (Context) -> Unit) {
 }
 
 
-fun Context.setLocale(language: String): Context {
-    val locale = Locale(language)
-    Locale.setDefault(locale)
-
-    val config = Configuration(resources.configuration)
-    config.setLocale(locale)
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        createConfigurationContext(config)
-    } else {
-        @Suppress("DEPRECATION")
-        resources.updateConfiguration(config, resources.displayMetrics)
-        this
-    }
-}
 

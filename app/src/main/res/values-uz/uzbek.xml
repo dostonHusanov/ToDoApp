@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Checklist</string>
+    <string name="checklist">Checklist</string>
+    <string name="settings">Sozlamalar</string>
+    <string name="archive_details">Arxiv tafsilotlari</string>
+    <string name="archive_not_found">Arxivlangan roʻyxat topilmadi.</string>
+    <string name="created">Yaratilgan:</string>
+    <string name="completed">YAKUNLANGAN</string>
+    <string name="checklist_items">Roʻyxat elementlari</string>
+    <string name="archived_checklists">Arxivlangan roʻyxatlar</string>
+    <string name="no_archived_items">Arxivlangan roʻyxatlar yoʻq</string>
+    <string name="no_archived_description">Tugallangan roʻyxatlar shu yerda paydo boʻladi</string>
+    <string name="clear_all">Hammasini tozalash</string>
+    <string name="delete_checklist">Roʻyxatni oʻchirish</string>
+    <string name="delete_checklist_confirm">Ushbu arxivlangan roʻyxatni butunlay oʻchirishga ishonchingiz komilmi?</string>
+    <string name="clear_all_archives">Barcha arxivlarni tozalash</string>
+    <string name="clear_all_confirm">Siz %1$d ta arxivlangan roʻyxatni butunlay oʻchirishni xohlaysizmi? Bu amalni qaytarib boʻlmaydi.</string>
+    <string name="delete">Oʻchirish</string>
+    <string name="cancel">Bekor qilish</string>
+    <string name="completed_on">Tugallangan: %1$s</string>
+    <string name="completed_count">%1$s ta tugallandi</string>
+    <string name="active_checklists">Faol roʻyxatlar</string>
+    <string name="add">Qoʻshish</string>
+    <string name="checklist_archived">Roʻyxat arxivlandi</string>
+    <string name="checklist_not_found">Roʻyxat topilmadi.</string>
+    <string name="checklist_name">Roʻyxat nomi</string>
+    <string name="new_item">Yangi element</string>
+    <string name="add_item">Element qoʻshish</string>
+    <string name="save">Saqlash</string>
+    <string name="drag">Sudrab olib oʻtish</string>
+    <string name="edit">Tahrirlash</string>
+    <string name="confirm_edit">Tahrirni tasdiqlash</string>
+    <string name="main_menu">Asosiy menyu</string>
+    <string name="archive">Arxiv</string>
+    <string name="help_support">Yordam va qoʻllab-quvvatlash</string>
+    <string name="about_app">Ilova haqida</string>
+    <string name="checklists">Roʻyxatlar</string>
+    <string name="skip">Oʻtkazib yuborish</string>
+    <string name="onboard_title_1">Vazifalaringizni tartiblang</string>
+    <string name="onboard_desc_1">Roʻyxatlarni oson yaratish va boshqarish</string>
+    <string name="onboard_title_2">Tajribaning moslashtiring</string>
+    <string name="onboard_desc_2">Shablonlardan foydalaning va mavzularni oʻzgartiring</string>
+    <string name="about">Ilova haqida</string>
+    <string name="version">Versiya 1.0.0</string>
+    <string name="about_this_app">Ilova haqida</string>
+    <string name="about_description">Oddiy va chiroyli todo checklist ilovasi boʻlib, vazifalaringizni samarali tashkil etishga yordam beradi. Roʻyxatlar yarating, bajarilgan vazifalarni belgilang va ularni keyinroq foydalanish uchun arxivga saqlang.</string>
+    <string name="key_features">Asosiy imkoniyatlar</string>
+    <string name="feature_1">Bir nechta checklistlar yaratish va boshqarish</string>
+    <string name="feature_2">Vazifalarni bajarilgan yoki bajarilmagan deb belgilash</string>
+    <string name="feature_3">Bajarilgan roʻyxatlarni arxivga olish</string>
+    <string name="feature_4">Toza va qulay foydalanuvchi interfeysi</string>
+    <string name="feature_5">Mahalliy maʼlumotlar saqlash</string>
+    <string name="feature_6">Yorugʻ va qorongʻi rejimlarni qoʻllab-quvvatlash</string>
+    <string name="developer">Dasturchi</string>
+    <string name="developer_name">Daston tomonidan ishlab chiqilgan</string>
+    <string name="technology">Android Jetpack Compose bilan qurilgan</string>
+    <string name="current_theme">Joriy mavzu</string>
+    <string name="dark">QORONGʻI</string>
+    <string name="light">YORUGʻ</string>
+    <string name="theme_info">Mavzu tizim sozlamalariga qarab avtomatik ravishda oʻzgaradi yoki ilova sozlamalarida almashtiriladi.</string>
+    <string name="copyright">© 2025 Checklist. Barcha huquqlar himoyalangan.</string>
+
+    <string name="support_help">Yordam &amp; qoʻllab-quvvatlash</string>
+    <string name="faq_title">Koʻp soʻraladigan savollar</string>
+    <string name="still_need_help">Hali ham yordam kerakmi?</string>
+    <string name="send_us_message">Bizga xabar yuboring, iloji boricha tezroq javob beramiz.</string>
+    <string name="contact_form">Aloqa formasi</string>
+    <string name="full_name">Toʻliq ism</string>
+    <string name="your_message">Xabaringiz</string>
+    <string name="send_message">Xabar yuborish</string>
+    <string name="message_hint">Xabaringiz buferga nusxalanadi va Telegram ochiladi.</string>
+    <string name="other_ways">Biz bilan bogʻlanishning boshqa usullari</string>
+    <string name="email_support">Email orqali qoʻllab-quvvatlash</string>
+    <string name="telegram">Telegram</string>
+    <string name="fill_all_fields">Iltimos, barcha maydonlarni toʻldiring</string>
+    <string name="opening_telegram">Xabaringiz bilan Telegram ochilmoqda…</string>
+    <string name="opening_telegram_web">Telegram Web ochilmoqda…</string>
+    <string name="message_copied">Xabar buferga nusxalandi. Iltimos, t.me/Dostonbek_Husanov sahifasiga oʻting va qoʻlda joylashtiring.</string>
+
+    <string name="message_clipboard_hint">Xabaringiz buferga nusxalanadi va Telegram avtomatik ochiladi.</string>
+
+    <!-- FAQ Savollar -->
+    <string name="faq_q1">Yangi checklistni qanday yarataman?</string>
+    <string name="faq_q2">Elementlarni bajarilgan deb qanday belgilayman?</string>
+    <string name="faq_q3">Bajarilgan checklistlar qayerga ketadi?</string>
+    <string name="faq_q4">Yaratilgandan keyin checklistni tahrirlash mumkinmi?</string>
+    <string name="faq_q5">Qanday qilib qorongʻi va yorugʻ mavzularni almashtiraman?</string>
+    <string name="faq_q6">Maʼlumotlarim lokalda saqlanadimi?</string>
+    <string name="faq_q7">Oʻchirilgan checklistlarni qanday tiklayman?</string>
+
+    <!-- FAQ Javoblar -->
+    <string name="faq_a1">Asosiy ekranda \'+\' tugmasini bosing, checklist sarlavhasini kiriting va elementlar qoʻshishni boshlang. Istalgancha element qoʻshishingiz mumkin.</string>
+    <string name="faq_a2">Har qanday element yonidagi katakchani bosing. Bajarilgan elementda belgi va chiziqcha paydo boʻladi.</string>
+    <string name="faq_a3">Barcha elementlar bajarilgach, checklist avtomatik ravishda Arxiv boʻlimiga oʻtadi. Uni Arxiv tabidan topishingiz mumkin.</string>
+    <string name="faq_a4">Ha, checklist sarlavhasini va elementlarini arxivlanmaguncha tahrirlash mumkin. Buning uchun checklistga bosing.</string>
+    <string name="faq_a5">Ilova tizimingiz mavzusiga mos ravishda avtomatik oʻzgaradi. Sozlamalar boʻlimida qoʻlda ham almashtirish mumkin.</string>
+    <string name="faq_a6">Ha, barcha checklist va maʼlumotlaringiz qurilmangizda lokal saqlanadi. Internet boʻlmasa ham maʼlumotlar mavjud boʻladi.</string>
+    <string name="faq_a7">Ayni paytda oʻchirilgan checklistlarni qayta tiklash funksiyasi yoʻq. Biroq bajarilgan checklistlar Arxiv boʻlimida saqlanadi.</string>
+</resources>

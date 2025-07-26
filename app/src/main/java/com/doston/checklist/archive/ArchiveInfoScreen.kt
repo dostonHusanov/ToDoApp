@@ -10,12 +10,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.doston.checklist.R
 import com.doston.checklist.data.Checklist
 import com.doston.checklist.database.ChecklistViewModel
 import com.doston.checklist.ui.theme.ButtonColor
@@ -52,7 +54,7 @@ fun ArchiveInfoScreen(
         Scaffold(
             topBar = {
                 Text(
-                    "Archive Details",
+                    stringResource(R.string.archive_details),
                     color = textColor,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
@@ -71,7 +73,7 @@ fun ArchiveInfoScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    "Archived checklist not found.",
+                    stringResource(R.string.archive_not_found),
                     color = textColor,
                     fontSize = 16.sp
                 )
@@ -84,7 +86,7 @@ fun ArchiveInfoScreen(
         topBar = {
             Column {
                 Text(
-                    "Archive Details",
+                    stringResource(R.string.archive_details),
                     color = textColor,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
@@ -130,8 +132,9 @@ fun ArchiveInfoScreen(
                                 color = textColor
                             )
                             Spacer(modifier = Modifier.height(4.dp))
+                            val created=stringResource(R.string.created)
                             Text(
-                                text = "Created: ${checklist.createdDate}",
+                                text = "$created: ${checklist.createdDate}",
                                 fontSize = 14.sp,
                                 color = textColor.copy(alpha = 0.7f)
                             )
@@ -141,7 +144,7 @@ fun ArchiveInfoScreen(
                             horizontalAlignment = Alignment.End
                         ) {
                             Text(
-                                text = "COMPLETED",
+                                text =stringResource(R.string.completed),
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = accentColor,
@@ -174,7 +177,7 @@ fun ArchiveInfoScreen(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
-
+val checkListItems=stringResource(R.string.checklist_items)
             Text(
                 text = "Checklist Items (${checklist.items.size})",
                 fontSize = 18.sp,

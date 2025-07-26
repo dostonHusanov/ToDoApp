@@ -29,6 +29,7 @@ fun LoadingScreen(navController: NavController, viewModel: ChecklistViewModel) {
     val checklists by viewModel.archivedChecklists.collectAsState()
 
 
+
     val backgroundColor = if (isDarkTheme) MainColor else Color(0xFFF5F5F5)
     val textColor = if (isDarkTheme) WhiteColor else Color.Black
     val cardColor = if (isDarkTheme) ButtonColor else Color.White
@@ -36,7 +37,7 @@ fun LoadingScreen(navController: NavController, viewModel: ChecklistViewModel) {
     val topBarColor = if (isDarkTheme) ButtonColor else Color.White
     LaunchedEffect(Unit) {
         delay(1500)
-        navController.navigate("onboarding")
+        navController.navigate("language")
     }
 
     Box(

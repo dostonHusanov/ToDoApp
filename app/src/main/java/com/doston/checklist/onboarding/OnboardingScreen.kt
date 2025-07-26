@@ -7,10 +7,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
@@ -29,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -43,99 +46,106 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnBoardingScreen(onFinish: () -> Unit,viewModel: ChecklistViewModel) {
-    val pagerState = rememberPagerState(
-        initialPage = 0,
-        pageCount = { listData.count() }
-    )
+fun OnBoardingScreen(onFinish: () -> Unit, viewModel: ChecklistViewModel) {
+    val pagerState = rememberPagerState(initialPage = 0) { 2 } // pageCount = 2
     val (selectedPage, setSelectedPage) = remember { mutableIntStateOf(0) }
-    val checklists by viewModel.archivedChecklists.collectAsState()
     val isDarkTheme by viewModel.themeDark.collectAsState()
 
     val backgroundColor = if (isDarkTheme) MainColor else Color(0xFFF5F5F5)
     val textColor = if (isDarkTheme) WhiteColor else Color.Black
-    val cardColor = if (isDarkTheme) ButtonColor else Color.White
     val accentColor = if (isDarkTheme) YellowColor else Color(0xFF6200EE)
-    val topBarColor = if (isDarkTheme) ButtonColor else Color.White
+
+    val listData = listOf(
+        OnboardingData(
+            image = R.drawable.task_yellow,
+            title = stringResource(R.string.onboard_title_1),
+            desc = stringResource(R.string.onboard_desc_1)
+        ),
+        OnboardingData(
+            image = R.drawable.settings,
+            title = stringResource(R.string.onboard_title_2),
+            desc = stringResource(R.string.onboard_desc_2)
+        )
+    )
+
+    val scope = rememberCoroutineScope()
+
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect { page ->
             setSelectedPage(page)
         }
     }
 
-    val scope = rememberCoroutineScope()
-
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(WindowInsets.systemBars.asPaddingValues())
-            .background(
-                backgroundColor
-            )
+            .background(backgroundColor)
     ) {
-
-        Text(text = "Skip", color = textColor, fontSize = 15.sp, modifier = Modifier.clickable {
-            if (selectedPage == listData.size - 1) {
-                onFinish()
-            } else {
-                scope.launch {
-
-                    pagerState.animateScrollToPage(selectedPage + 1)
-
-                }
-            }
-        }.align(Alignment.TopEnd).padding(16.dp))
-        Column(
+        Text(
+            text = stringResource(R.string.skip),
+            color = YellowColor,
+            fontSize = 15.sp,
             modifier = Modifier
+                .clickable {
+                    if (selectedPage == listData.lastIndex) {
+                        onFinish()
+                    } else {
+                        scope.launch {
+                            pagerState.animateScrollToPage(selectedPage + 1)
+                        }
+                    }
+                }
+                .align(Alignment.TopEnd)
+                .padding(16.dp)
+        )
 
-                .padding(16.dp), verticalArrangement = Arrangement.Center
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center
         ) {
             HorizontalPager(
-                beyondViewportPageCount = listData.size,
                 state = pagerState,
-                modifier = Modifier.weight(1f).padding(40.dp)
+                modifier = Modifier.padding(vertical = 40.dp).fillMaxWidth()
+                    .weight(1f),
+                beyondViewportPageCount = listData.size
             ) { page ->
+                val item = listData[page]
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
-                    modifier = Modifier
-
-
+                    modifier = Modifier.fillMaxSize().padding(horizontal = 15.dp)
                 ) {
                     Image(
-                        painter = painterResource(R.drawable.task_yellow),
-                        contentDescription = listData[page].title,
+                        painter = painterResource(item.image),
+                        contentDescription = item.title,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .size(80.dp)
-
+                            .size(150.dp)
                     )
-
+                    Spacer(modifier = Modifier.height(40.dp))
                     Text(
-                        text = listData[page].title,
+                        text = item.title,
                         color = textColor,
-                        fontSize = 30.sp,
+                        fontSize = 28.sp,
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.SemiBold,
                         modifier = Modifier
-                            .padding(top = 40.dp)
-                            .align(Alignment.CenterHorizontally), lineHeight = 32.sp
+                            .padding()
+                            .align(Alignment.CenterHorizontally),
+                        lineHeight = 32.sp
                     )
-
+Spacer(modifier = Modifier.height(15.dp))
                     Text(
-                        text = listData[page].desc,
+                        text = item.desc,
                         color = textColor,
                         fontSize = 16.sp,
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Medium,
                         modifier = Modifier
-                            .padding(top = 10.dp)
-
                     )
                 }
             }
-
-
         }
     }
 }

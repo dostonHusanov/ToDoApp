@@ -2,28 +2,12 @@ package com.doston.checklist
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -32,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -47,7 +32,6 @@ import com.doston.checklist.ui.theme.YellowColor
 fun AboutScreen(viewModel: ChecklistViewModel) {
     val isDarkTheme by viewModel.themeDark.collectAsState()
 
-    // Dynamic theme colors
     val backgroundColor = if (isDarkTheme) MainColor else Color(0xFFF5F5F5)
     val textColor = if (isDarkTheme) WhiteColor else Color.Black
     val cardColor = if (isDarkTheme) ButtonColor else Color.White
@@ -58,7 +42,7 @@ fun AboutScreen(viewModel: ChecklistViewModel) {
         topBar = {
             Column {
                 Text(
-                    "About",
+                    stringResource(R.string.about),
                     color = textColor,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
@@ -94,7 +78,7 @@ fun AboutScreen(viewModel: ChecklistViewModel) {
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.logo),
-                    contentDescription = "App Icon",
+                    contentDescription = stringResource(R.string.app_name),
                     modifier = Modifier.size(100.dp),
                     tint = if (isDarkTheme) WhiteColor else Color.White
                 )
@@ -103,7 +87,7 @@ fun AboutScreen(viewModel: ChecklistViewModel) {
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = "Todo Checklist App",
+                text = stringResource(R.string.app_name),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 color = textColor,
@@ -111,7 +95,7 @@ fun AboutScreen(viewModel: ChecklistViewModel) {
             )
 
             Text(
-                text = "Version 1.0.0",
+                text = stringResource(R.string.version),
                 fontSize = 16.sp,
                 color = textColor.copy(alpha = 0.7f),
                 textAlign = TextAlign.Center
@@ -119,154 +103,114 @@ fun AboutScreen(viewModel: ChecklistViewModel) {
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp)),
-                colors = CardDefaults.cardColors(containerColor = cardColor),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(20.dp)
-                ) {
-                    Text(
-                        text = "About This App",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = accentColor
-                    )
+            InfoCard(cardColor, accentColor) {
+                Text(
+                    text = stringResource(R.string.about_this_app),
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = accentColor
+                )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
-                    Text(
-                        text = "A simple and elegant todo checklist application designed to help you organize your tasks efficiently. Create checklists, mark tasks as complete, and keep your completed lists in archive for future reference.",
-                        fontSize = 14.sp,
-                        color = textColor,
-                        lineHeight = 20.sp
-                    )
-                }
+                Text(
+                    text = stringResource(R.string.about_description),
+                    fontSize = 14.sp,
+                    color = textColor,
+                    lineHeight = 20.sp
+                )
             }
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp)),
-                colors = CardDefaults.cardColors(containerColor = cardColor),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(20.dp)
-                ) {
-                    Text(
-                        text = "Key Features",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = accentColor
-                    )
+            InfoCard(cardColor, accentColor) {
+                Text(
+                    text = stringResource(R.string.key_features),
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = accentColor
+                )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
-                    FeatureItem("✓", "Create and manage multiple checklists", textColor, accentColor)
-                    FeatureItem("✓", "Mark tasks as complete or incomplete", textColor, accentColor)
-                    FeatureItem("✓", "Archive completed checklists", textColor, accentColor)
-                    FeatureItem("✓", "Clean and intuitive user interface", textColor, accentColor)
-                    FeatureItem("✓", "Local data storage", textColor, accentColor)
-                    FeatureItem("✓", "Dark and light theme support", textColor, accentColor)
-                }
+                FeatureItem("✓", stringResource(R.string.feature_1), textColor, accentColor)
+                FeatureItem("✓", stringResource(R.string.feature_2), textColor, accentColor)
+                FeatureItem("✓", stringResource(R.string.feature_3), textColor, accentColor)
+                FeatureItem("✓", stringResource(R.string.feature_4), textColor, accentColor)
+                FeatureItem("✓", stringResource(R.string.feature_5), textColor, accentColor)
+                FeatureItem("✓", stringResource(R.string.feature_6), textColor, accentColor)
             }
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp)),
-                colors = CardDefaults.cardColors(containerColor = cardColor),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(20.dp)
-                ) {
-                    Text(
-                        text = "Developer",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = accentColor
-                    )
+            InfoCard(cardColor, accentColor) {
+                Text(
+                    text = stringResource(R.string.developer),
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = accentColor
+                )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
-                    Text(
-                        text = "Developed by Doston",
-                        fontSize = 16.sp,
-                        color = textColor,
-                        fontWeight = FontWeight.Medium
-                    )
+                Text(
+                    text = stringResource(R.string.developer_name),
+                    fontSize = 16.sp,
+                    color = textColor,
+                    fontWeight = FontWeight.Medium
+                )
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
-                    Text(
-                        text = "Built with Android Jetpack Compose",
-                        fontSize = 14.sp,
-                        color = textColor.copy(alpha = 0.7f)
-                    )
-                }
+                Text(
+                    text = stringResource(R.string.technology),
+                    fontSize = 14.sp,
+                    color = textColor.copy(alpha = 0.7f)
+                )
             }
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp)),
-                colors = CardDefaults.cardColors(containerColor = cardColor),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(20.dp)
+            InfoCard(cardColor, accentColor) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = "Current Theme",
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = accentColor
-                        )
-
-                        Text(
-                            text = if (isDarkTheme) "DARK" else "LIGHT",
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = if (isDarkTheme) accentColor else Color(0xFF6200EE),
-                            modifier = Modifier
-                                .background(
-                                    (if (isDarkTheme) accentColor else Color(0xFF6200EE)).copy(alpha = 0.1f),
-                                    RoundedCornerShape(8.dp)
-                                )
-                                .padding(horizontal = 8.dp, vertical = 4.dp)
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = stringResource(R.string.current_theme),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = accentColor
+                    )
 
                     Text(
-                        text = "Theme changes automatically based on your system settings or can be toggled in the app settings.",
-                        fontSize = 14.sp,
-                        color = textColor.copy(alpha = 0.7f)
+                        text = if (isDarkTheme) stringResource(R.string.dark) else stringResource(R.string.light),
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = accentColor,
+                        modifier = Modifier
+                            .background(
+                                accentColor.copy(alpha = 0.1f),
+                                RoundedCornerShape(8.dp)
+                            )
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
                     )
                 }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = stringResource(R.string.theme_info),
+                    fontSize = 14.sp,
+                    color = textColor.copy(alpha = 0.7f)
+                )
             }
 
             Spacer(modifier = Modifier.height(30.dp))
 
             Text(
-                text = "© 2025 Checklist. All rights reserved.",
+                text = stringResource(R.string.copyright),
                 fontSize = 12.sp,
                 color = textColor.copy(alpha = 0.5f),
                 textAlign = TextAlign.Center
@@ -303,5 +247,22 @@ private fun FeatureItem(
             fontSize = 14.sp,
             lineHeight = 18.sp
         )
+    }
+}
+
+@Composable
+private fun InfoCard(
+    cardColor: Color,
+    accentColor: Color,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp)),
+        colors = CardDefaults.cardColors(containerColor = cardColor),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Column(modifier = Modifier.padding(20.dp), content = content)
     }
 }

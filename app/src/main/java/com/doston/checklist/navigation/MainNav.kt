@@ -1,14 +1,17 @@
 package com.doston.checklist.navigation
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.doston.checklist.AboutScreen
+import com.doston.checklist.LocaleManager
 import com.doston.checklist.SettingsScreen
 import com.doston.checklist.SupportScreen
 import com.doston.checklist.archive.ArchiveInfoScreen
@@ -18,6 +21,7 @@ import com.doston.checklist.checklist.CheckListInfoScreen
 import com.doston.checklist.checklist.CreateChecklistScreen
 import com.doston.checklist.database.ChecklistViewModel
 import com.doston.checklist.main.HomeScreen
+import com.doston.checklist.onboarding.LanguageScreen
 import com.doston.checklist.onboarding.LoadingScreen
 import com.doston.checklist.onboarding.OnBoardingScreen
 
@@ -34,6 +38,24 @@ fun MainNav(context: Context, viewModel: ChecklistViewModel) {
     ) {
         composable("loading") {
             LoadingScreen(navController, viewModel)
+        }
+        composable("language") {
+            LanguageScreen(
+                onLanguageSelected = { languageCode ->
+                    val activity = context as? Activity
+
+                    LocaleManager.setLocale(context, languageCode)
+                    LocaleManager.getPrefs(context).edit().putBoolean("language_selected", true)
+                        .apply()
+
+                    activity?.recreate()
+                },
+                onNextClicked = {
+                    navController.navigate("onboarding") {
+                        popUpTo("language") { inclusive = true }
+                    }
+                }
+            )
         }
 
 

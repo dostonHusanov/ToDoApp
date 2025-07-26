@@ -11,11 +11,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.doston.checklist.R
 import com.doston.checklist.data.Checklist
 import com.doston.checklist.database.ChecklistViewModel
 import kotlinx.serialization.json.Json
@@ -46,7 +48,7 @@ fun CheckListInfoScreen(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Text("Checklist topilmadi.", color = textColor)
+            Text(stringResource(R.string.checklist_not_found), color = textColor)
         }
         return
     }

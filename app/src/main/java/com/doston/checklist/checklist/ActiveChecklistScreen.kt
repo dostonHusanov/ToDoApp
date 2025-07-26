@@ -37,11 +37,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.doston.checklist.R
 import com.doston.checklist.database.ChecklistViewModel
 import com.doston.checklist.ui.theme.ButtonColor
 import com.doston.checklist.ui.theme.MainColor
@@ -64,7 +66,7 @@ fun ActiveChecklistScreen(navController: NavController, viewModel: ChecklistView
     Scaffold(
         topBar = {
             Text(
-                "Active Checklists",
+                text = stringResource(R.string.active_checklists),
                 color = textColor,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
@@ -89,7 +91,7 @@ fun ActiveChecklistScreen(navController: NavController, viewModel: ChecklistView
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Add",
+                    contentDescription = stringResource(R.string.add),
                     tint = WhiteColor,
                     modifier = Modifier
                         .fillMaxSize()
@@ -119,7 +121,7 @@ fun ActiveChecklistScreen(navController: NavController, viewModel: ChecklistView
                         title = checklist.title,
                         createdDate = checklist.createdDate,
                         viewModel = viewModel,
-                        progress = checklist.getCompletionProgress(), // Use real progress!
+                        progress = checklist.getCompletionProgress(),
                         completedCount = checklist.getCompletedCount(),
                         totalCount = checklist.items.size,
                         cardColor = cardColor,
@@ -136,6 +138,7 @@ fun ActiveChecklistScreen(navController: NavController, viewModel: ChecklistView
         }
     }
 }
+
 
 @Composable
 fun ChecklistItemCard(
